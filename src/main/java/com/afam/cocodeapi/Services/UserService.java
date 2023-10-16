@@ -61,10 +61,9 @@ public class UserService {
             throw new IllegalStateException("The username you are attempting to register already exists");
         }
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
         String hashedPassword = passwordEncoder.encode(user.getPassword());
-
 
         user.setPassword(hashedPassword);
 

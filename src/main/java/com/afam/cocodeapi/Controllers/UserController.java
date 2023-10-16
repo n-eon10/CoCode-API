@@ -18,22 +18,22 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/getall")
+    @GetMapping(path = "/getall")
     public List<UserModel> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping(value = "/getone/{userId}")
+    @GetMapping(path = "/getone/{userId}")
     public UserModel getOneUser(@PathVariable Long userId) {
         return userService.getOneUser(userId);
     }
 
-    @PostMapping(value = "/createUser")
+    @PostMapping(path = "/createuser")
     public UserModel createUser(@RequestBody UserModel user) {
         return userService.createUser(user);
     }
 
-    @PostMapping(value = "/loginUser")
+    @PostMapping(path = "/loginuser")
     public UserModel loginUser(@RequestBody String email,
                                String password) {
         return userService.loginUser(email, password);
