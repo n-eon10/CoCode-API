@@ -19,22 +19,22 @@ public class RoomModel {
     )
     private long id;
     private String roomName;
-    private List<UserModel> roomUsers;
+    private List<Integer> userCount;
     private String roomStatus;
 
     public RoomModel() {
     }
 
-    public RoomModel(long id, String roomName, List<UserModel> roomUsers, String roomStatus) {
+    public RoomModel(long id, String roomName, List<Integer> userCount, String roomStatus) {
         this.id = id;
         this.roomName = roomName;
-        this.roomUsers = roomUsers;
+        this.userCount = userCount;
         this.roomStatus = roomStatus;
     }
 
-    public RoomModel(String roomName, List<UserModel> roomUsers, String roomStatus) {
+    public RoomModel(String roomName, List<Integer> userCount, String roomStatus) {
         this.roomName = roomName;
-        this.roomUsers = roomUsers;
+        this.userCount = userCount;
         this.roomStatus = roomStatus;
     }
 
@@ -54,12 +54,12 @@ public class RoomModel {
         this.roomName = roomName;
     }
 
-    public List<UserModel> getRoomUsers() {
-        return roomUsers;
+    public List<Integer> getUserCount() {
+        return userCount;
     }
 
-    public void setRoomUsers(List<UserModel> roomUsers) {
-        this.roomUsers = roomUsers;
+    public void setUserCount(List<Integer> userCount) {
+        this.userCount = userCount;
     }
 
     public String getRoomStatus() {
@@ -68,5 +68,15 @@ public class RoomModel {
 
     public void setRoomStatus(String roomStatus) {
         this.roomStatus = roomStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "RoomModel{" +
+                "id=" + id +
+                ", roomName='" + roomName + '\'' +
+                ", userCount=" + userCount +
+                ", roomStatus='" + roomStatus + '\'' +
+                '}';
     }
 }
