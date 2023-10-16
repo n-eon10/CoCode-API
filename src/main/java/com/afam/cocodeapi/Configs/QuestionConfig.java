@@ -59,8 +59,24 @@ public class QuestionConfig {
                             "-109 <= nums[i] <= 109",
                     QuestionDifficulty.EASY);
 
+            QuestionModel Valid_Anagram = new QuestionModel("Valid Anagram",
+                    "Given two strings s and t, return true if t is an anagram of s, and false otherwise.\n" +
+                            "\n" +
+                            "An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
+                    "Example 1:\n" +
+                            "\n" +
+                            "Input: s = \"anagram\", t = \"nagaram\"\n" +
+                            "Output: true\n" +
+                            "Example 2:\n" +
+                            "\n" +
+                            "Input: s = \"rat\", t = \"car\"\n" +
+                            "Output: false",
+                    "1 <= s.length, t.length <= 5 * 104\n" +
+                            "s and t consist of lowercase English letters.",
+                    QuestionDifficulty.EASY);
+
             questionRepository.saveAll(
-                    List.of(Two_Sum, Contains_Duplicate)
+                    List.of(Two_Sum, Contains_Duplicate, Valid_Anagram)
 
             );
         };
