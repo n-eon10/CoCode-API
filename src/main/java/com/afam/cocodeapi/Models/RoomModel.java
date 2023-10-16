@@ -19,21 +19,24 @@ public class RoomModel {
     )
     private long id;
     private String roomName;
+    private String roomPasscode;
     private List<Integer> userCount;
     private String roomStatus;
 
     public RoomModel() {
     }
 
-    public RoomModel(long id, String roomName, List<Integer> userCount, String roomStatus) {
+    public RoomModel(long id, String roomName, String passcode, List<Integer> userCount, String roomStatus) {
         this.id = id;
         this.roomName = roomName;
+        roomPasscode = passcode;
         this.userCount = userCount;
         this.roomStatus = roomStatus;
     }
 
-    public RoomModel(String roomName, List<Integer> userCount, String roomStatus) {
+    public RoomModel(String roomName, String passcode, List<Integer> userCount, String roomStatus) {
         this.roomName = roomName;
+        roomPasscode = passcode;
         this.userCount = userCount;
         this.roomStatus = roomStatus;
     }
@@ -52,6 +55,14 @@ public class RoomModel {
 
     public void setRoomName(String roomName) {
         this.roomName = roomName;
+    }
+
+    public String getRoomPasscode() {
+        return roomPasscode;
+    }
+
+    public void setRoomPasscode(String roomPasscode) {
+        this.roomPasscode = roomPasscode;
     }
 
     public List<Integer> getUserCount() {

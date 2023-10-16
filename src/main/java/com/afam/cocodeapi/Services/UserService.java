@@ -31,7 +31,7 @@ public class UserService {
 
         long expiration = System.currentTimeMillis() + 604800000;
 
-        return Jwts.builder().setSubject(username)
+        return "token: " + Jwts.builder().setSubject(username)
                 .setExpiration(new Date(expiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
@@ -52,25 +52,28 @@ public class UserService {
         return userOptional.get();
     }
 
-
-    public UserModel createUser(String username, String email, String password) {
-        if (userRepository.existsByEmail(email)) {
+    public UserModel createUser(UserModel user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalStateException("The email you are attempting to register already exists");
         }
 
-        if (userRepository.existsByUsername(username)) {
+        if (userRepository.existsByUsername(user.getUsername())) {
             throw new IllegalStateException("The username you are attempting to register already exists");
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-        String hashedPassword = passwordEncoder.encode(password);
+        String hashedPassword = passwordEncoder.encode(user.getPassword());
 
-        String token = generateToken(username);
 
-        return new UserModel(username, email, hashedPassword, "", "", "");
+        user.setPassword(hashedPassword);
+
+        System.out.println(user);
+
+        userRepository.save(user);
+
+        return user;
     }
-
 
     public UserModel loginUser(String email, String password) {
         Optional<UserModel> userModelOptional = userRepository.findByEmail(email);
@@ -83,7 +86,7 @@ public class UserService {
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         if (passwordEncoder.matches(password, user.getPassword())) {
-            String token = generateToken(email);
+
 
             return user;
         } else {
@@ -91,4 +94,6 @@ public class UserService {
         }
 
     }
+
+
 }

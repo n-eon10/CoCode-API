@@ -23,28 +23,29 @@ public class UserModel {
 
     //user profile attributes
     private String name;
-    private String about_user;
+    private String aboutUser;
     private String skills;
 
     public UserModel() {
     }
 
-    public UserModel(Long id, String username, String email, String password, String name, String about_user, String skills) {
+    public UserModel(Long id, String username, String email, String password, String name, String about_user, String aboutUser, String skills) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
-        this.about_user = about_user;
+        this.aboutUser = aboutUser;
+
         this.skills = skills;
     }
 
-    public UserModel(String username, String email, String password, String name, String about_user, String skills) {
+    public UserModel(String username, String email, String password, String name, String about_user, String aboutUser, String skills) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
-        this.about_user = about_user;
+        this.aboutUser = aboutUser;
         this.skills = skills;
     }
 
@@ -88,12 +89,12 @@ public class UserModel {
         this.name = name;
     }
 
-    public String getAbout_user() {
-        return about_user;
+    public String getAboutUser() {
+        return aboutUser;
     }
 
-    public void setAbout_user(String about_user) {
-        this.about_user = about_user;
+    public void setAboutUser(String aboutUser) {
+        this.aboutUser = aboutUser;
     }
 
     public String getSkills() {
@@ -112,7 +113,7 @@ public class UserModel {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
-                ", about_user='" + about_user + '\'' +
+                ", aboutUser='" + aboutUser + '\'' +
                 ", skills='" + skills + '\'' +
                 '}';
     }

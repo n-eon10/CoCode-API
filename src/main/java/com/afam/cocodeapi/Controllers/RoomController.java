@@ -27,5 +27,11 @@ public class RoomController {
     public RoomModel getOneRoom(@PathVariable Long roomId) {
         return roomService.getOneRoom(roomId);
     }
+
+/*    @PostMapping(path = "/createroom")
+    public RoomModel createRoom(@RequestBody String roomName,
+                                String roomPasscode) {
+        return roomService.createRoom(roomName, roomPasscode);
+    }*/
     
 }
