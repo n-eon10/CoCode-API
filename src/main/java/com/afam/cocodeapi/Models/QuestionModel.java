@@ -1,5 +1,6 @@
 package com.afam.cocodeapi.Models;
 
+import com.afam.cocodeapi.Enums.QuestionDifficulty;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,27 +17,36 @@ public class QuestionModel {
             generator = "question_sequence"
     )
     private Long id;
+    @Column(length = 1000)
     private String questionName;
+    @Column(length = 5000)
     private String question;
+    @Column(length = 5000)
     private String questionExamples;
+    @Column(length = 2000)
     private String constraints;
+
+    @Enumerated(EnumType.STRING)
+    private QuestionDifficulty questionDifficulty;
 
     public QuestionModel() {
     }
 
-    public QuestionModel(Long id, String questionName, String question, String questionExamples, String constraints) {
+    public QuestionModel(Long id, String questionName, String question, String questionExamples, String constraints, QuestionDifficulty questionDifficulty) {
         this.id = id;
         this.questionName = questionName;
         this.question = question;
         this.questionExamples = questionExamples;
         this.constraints = constraints;
+        this.questionDifficulty = questionDifficulty;
     }
 
-    public QuestionModel(String questionName, String question, String questionExamples, String constraints) {
+    public QuestionModel(String questionName, String question, String questionExamples, String constraints, QuestionDifficulty questionDifficulty) {
         this.questionName = questionName;
         this.question = question;
         this.questionExamples = questionExamples;
         this.constraints = constraints;
+        this.questionDifficulty = questionDifficulty;
     }
 
     public Long getId() {
@@ -79,6 +89,14 @@ public class QuestionModel {
         this.constraints = constraints;
     }
 
+    public QuestionDifficulty getQuestionDifficulty() {
+        return questionDifficulty;
+    }
+
+    public void setQuestionDifficulty(QuestionDifficulty questionDifficulty) {
+        this.questionDifficulty = questionDifficulty;
+    }
+
     @Override
     public String toString() {
         return "QuestionModel{" +
@@ -87,6 +105,7 @@ public class QuestionModel {
                 ", question='" + question + '\'' +
                 ", questionExamples='" + questionExamples + '\'' +
                 ", constraints='" + constraints + '\'' +
+                ", questionDifficulty=" + questionDifficulty +
                 '}';
     }
 }

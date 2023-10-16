@@ -2,10 +2,7 @@ package com.afam.cocodeapi.Controllers;
 
 import com.afam.cocodeapi.Models.RoomModel;
 import com.afam.cocodeapi.Services.RoomService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class RoomController {
     }
 
     @GetMapping(path = "/getone/{roomid}")
-    public RoomModel getOneRoom(Long roomId) {
+    public RoomModel getOneRoom(@PathVariable Long roomId) {
         return roomService.getOneRoom(roomId);
     }
     
