@@ -2,6 +2,7 @@ package com.afam.cocodeapi.Controllers;
 
 import com.afam.cocodeapi.Services.WebSocketService;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 
@@ -15,8 +16,8 @@ public class WebSocketController {
     }
 
     @MessageMapping("/userinput")
-    @SendTo("/topic/codeupdate")
-    public String handleUserInput(String userInput) {
+    @SendTo("/codespace/codeupdate")
+    public String handleUserInput(@Payload String userInput) {
         return webSocketService.handleUserInput(userInput);
     }
 }
