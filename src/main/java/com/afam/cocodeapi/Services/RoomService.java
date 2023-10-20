@@ -1,5 +1,6 @@
 package com.afam.cocodeapi.Services;
 
+import com.afam.cocodeapi.Enums.RoomStatus;
 import com.afam.cocodeapi.Models.RoomModel;
 import com.afam.cocodeapi.Repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -32,11 +33,15 @@ public class RoomService {
 
         return RoomModelOptional.get();
     }
+    public RoomModel createRoom(String roomName, String passcode) {
+        Optional<RoomModel> RoomModelOptional = roomRepository.findByRoomName(roomName);
 
-/*    public RoomModel createRoom(String roomName, String passcode) {
+        if (RoomModelOptional.isPresent()) {
+            throw new IllegalStateException("The room you are attempting to create already exists");
+        }
 
-    }*/
+        return new RoomModel(roomName, passcode, List.of(1), RoomStatus.In_Use);
 
-
-
+    }
+    
 }

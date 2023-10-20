@@ -1,6 +1,8 @@
 package com.afam.cocodeapi.Models;
 
+import com.afam.cocodeapi.Enums.RoomStatus;
 import jakarta.persistence.*;
+import org.aspectj.apache.bcel.generic.Type;
 
 import java.util.List;
 
@@ -21,25 +23,28 @@ public class RoomModel {
     private String roomName;
     private String roomPasscode;
     private List<Integer> userCount;
-    private String roomStatus;
+    @Enumerated(EnumType.STRING)
+    private RoomStatus roomStatus;
+
 
     public RoomModel() {
     }
 
-    public RoomModel(long id, String roomName, String passcode, List<Integer> userCount, String roomStatus) {
+    public RoomModel(long id, String roomName, String roomPasscode, List<Integer> userCount, RoomStatus roomStatus) {
         this.id = id;
         this.roomName = roomName;
-        roomPasscode = passcode;
+        this.roomPasscode = roomPasscode;
         this.userCount = userCount;
         this.roomStatus = roomStatus;
     }
 
-    public RoomModel(String roomName, String passcode, List<Integer> userCount, String roomStatus) {
+    public RoomModel(String roomName, String roomPasscode, List<Integer> userCount, RoomStatus roomStatus) {
         this.roomName = roomName;
-        roomPasscode = passcode;
+        this.roomPasscode = roomPasscode;
         this.userCount = userCount;
         this.roomStatus = roomStatus;
     }
+
 
     public long getId() {
         return id;
@@ -73,11 +78,11 @@ public class RoomModel {
         this.userCount = userCount;
     }
 
-    public String getRoomStatus() {
+    public RoomStatus getRoomStatus() {
         return roomStatus;
     }
 
-    public void setRoomStatus(String roomStatus) {
+    public void setRoomStatus(RoomStatus roomStatus) {
         this.roomStatus = roomStatus;
     }
 
@@ -86,8 +91,9 @@ public class RoomModel {
         return "RoomModel{" +
                 "id=" + id +
                 ", roomName='" + roomName + '\'' +
+                ", roomPasscode='" + roomPasscode + '\'' +
                 ", userCount=" + userCount +
-                ", roomStatus='" + roomStatus + '\'' +
+                ", roomStatus=" + roomStatus +
                 '}';
     }
 }
