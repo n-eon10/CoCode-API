@@ -27,9 +27,4 @@ public class QuestionController {
     public QuestionModel getOneQuestion(@PathVariable Long questionId) {
         return questionService.getOneQuestion(questionId);
     }
-
-    @PostMapping(path = "/createquestion")
-    public QuestionModel createQuestion(QuestionModel question) {
-        return questionService.createQuestion(question);
-    }
 }

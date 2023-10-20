@@ -33,7 +33,4 @@ public class QuestionService {
 
         return questionModelOptional.get();
     }
-
-/*    public QuestionModel createQuestion(QuestionModel question) {
-    }*/
 }
