@@ -1,5 +1,6 @@
 package com.afam.cocodeapi.Models;
 
+import com.afam.cocodeapi.Enums.RoomType;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -21,24 +22,25 @@ public class RoomModel {
     private String roomName;
     private String roomPasscode;
     private List<Integer> userCount;
-    private String roomStatus;
+    @Enumerated(EnumType.STRING)
+    private RoomType roomType;
 
     public RoomModel() {
     }
 
-    public RoomModel(long id, String roomName, String passcode, List<Integer> userCount, String roomStatus) {
+    public RoomModel(long id, String roomName, String roomPasscode, List<Integer> userCount, RoomType roomType) {
         this.id = id;
         this.roomName = roomName;
-        roomPasscode = passcode;
+        this.roomPasscode = roomPasscode;
         this.userCount = userCount;
-        this.roomStatus = roomStatus;
+        this.roomType = roomType;
     }
 
-    public RoomModel(String roomName, String passcode, List<Integer> userCount, String roomStatus) {
+    public RoomModel(String roomName, String roomPasscode, List<Integer> userCount, RoomType roomType) {
         this.roomName = roomName;
-        roomPasscode = passcode;
+        this.roomPasscode = roomPasscode;
         this.userCount = userCount;
-        this.roomStatus = roomStatus;
+        this.roomType = roomType;
     }
 
     public long getId() {
@@ -73,12 +75,12 @@ public class RoomModel {
         this.userCount = userCount;
     }
 
-    public String getRoomStatus() {
-        return roomStatus;
+    public RoomType getRoomType() {
+        return roomType;
     }
 
-    public void setRoomStatus(String roomStatus) {
-        this.roomStatus = roomStatus;
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 
     @Override
@@ -86,8 +88,9 @@ public class RoomModel {
         return "RoomModel{" +
                 "id=" + id +
                 ", roomName='" + roomName + '\'' +
+                ", roomPasscode='" + roomPasscode + '\'' +
                 ", userCount=" + userCount +
-                ", roomStatus='" + roomStatus + '\'' +
+                ", roomType=" + roomType +
                 '}';
     }
 }

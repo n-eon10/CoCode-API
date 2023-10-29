@@ -7,12 +7,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserService {
@@ -26,73 +26,82 @@ public class UserService {
         this.environment = environment;
     }
 
-    private String generateToken(String username) {
+    private String generateToken(String subject) {
         String secretKey = environment.getProperty("SECRET");
 
         long expiration = System.currentTimeMillis() + 604800000;
 
-        return "token: " + Jwts.builder().setSubject(username)
+        return "token: " + Jwts.builder().setSubject(subject)
                 .setExpiration(new Date(expiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
 
-    public List<UserModel> getAllUsers() {
-        return userRepository.findAll();
+    public ResponseEntity<?> getAllUsers() {
+        List<UserModel> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
     }
 
-    public UserModel getOneUser(Long userId) {
+    public ResponseEntity<?> getOneUser(Long userId) {
         Optional<UserModel> userOptional = userRepository.findById(userId);
 
         if (userOptional.isEmpty()) {
-            throw new EntityNotFoundException("The user with id: " + userId + " does not currently exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist.");
         }
 
-        return userOptional.get();
+        UserModel user = userOptional.get();
+        return ResponseEntity.ok(user);
     }
 
-    public UserModel createUser(UserModel user) {
+    public ResponseEntity<?> createUser(UserModel user) {
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new IllegalStateException("The email you are attempting to register already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The email you are attempting to register already exists");
         }
 
         if (userRepository.existsByUsername(user.getUsername())) {
-            throw new IllegalStateException("The username you are attempting to register already exists");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The username you are attempting to register already exists");
         }
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
-
         String hashedPassword = passwordEncoder.encode(user.getPassword());
-
         user.setPassword(hashedPassword);
-
-        System.out.println(user);
 
         userRepository.save(user);
 
-        return user;
+        return ResponseEntity.status(HttpStatus.CREATED).body(user); // Return 201 Created status with the created user.
     }
 
-    public UserModel loginUser(String email, String password) {
-        Optional<UserModel> userModelOptional = userRepository.findByEmail(email);
+    public ResponseEntity<?> loginUser(Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
 
-        if (userModelOptional.isEmpty()) {
-            throw new EntityNotFoundException("The user with email: " + email + " cannot be found");
+        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
+            return ResponseEntity.badRequest().body("Please enter a valid email and password.");
         }
 
-        UserModel user = userModelOptional.get();
+        Optional<UserModel> userOptional = userRepository.findByEmail(email);
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (passwordEncoder.matches(password, user.getPassword())) {
-
-
-            return user;
-        } else {
-            throw new IllegalStateException("You have entered an incorrect password please try again");
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist.");
         }
 
+        UserModel user = userOptional.get();
+
+        if (user.getPassword() != null) {
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (!passwordEncoder.matches(password, user.getPassword())) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect password.");
+            }
+        }
+
+        String token = generateToken(user.getEmail());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", token);
+        response.put("user", user);
+
+        return ResponseEntity.ok(response);
     }
-
 
 }

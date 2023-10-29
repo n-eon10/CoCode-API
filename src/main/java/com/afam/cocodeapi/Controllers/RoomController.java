@@ -28,10 +28,6 @@ public class RoomController {
         return roomService.getOneRoom(roomId);
     }
 
-/*   @PostMapping(path = "/createroom")
-    public RoomModel createRoom(@RequestBody String roomName,
-                                String roomPasscode) {
-        return roomService.createRoom(roomName, roomPasscode);
-    }*/
+
 
 }
