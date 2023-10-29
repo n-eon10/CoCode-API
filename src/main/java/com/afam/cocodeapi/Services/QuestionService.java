@@ -39,4 +39,14 @@ public class QuestionService {
         return ResponseEntity.ok(question);
 
     }
+
+    public ResponseEntity<?> createQuestion(QuestionModel question) {
+        if (questionRepository.existsByQuestionName(question.getQuestionName())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The question with question name: " + question.getQuestionName() + " already exists");
+        }
+
+        questionRepository.save(question);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(question);
+    }
 }

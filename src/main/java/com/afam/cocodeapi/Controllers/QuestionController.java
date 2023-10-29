@@ -28,4 +28,9 @@ public class QuestionController {
     public ResponseEntity<?> getOneQuestion(@PathVariable Long questionId) {
         return questionService.getOneQuestion(questionId);
     }
+
+    @PostMapping(path = "/createquestion")
+    public ResponseEntity<?> createQuestion(@RequestBody QuestionModel question) {
+        return questionService.createQuestion(question);
+    }
 }
