@@ -31,7 +31,7 @@ public class UserService {
 
         long expiration = System.currentTimeMillis() + 604800000;
 
-        return "token: " + Jwts.builder().setSubject(subject)
+        return  Jwts.builder().setSubject(subject)
                 .setExpiration(new Date(expiration))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
@@ -47,7 +47,7 @@ public class UserService {
         Optional<UserModel> userOptional = userRepository.findById(userId);
 
         if (userOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User does not exist.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The user you are looking for does not exist.");
         }
 
         UserModel user = userOptional.get();

@@ -26,27 +26,32 @@ public class UserModel {
     private String aboutUser;
     private String skills;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_id")
+    private RoomModel room;
+
     public UserModel() {
     }
 
-    public UserModel(Long id, String username, String email, String password, String name, String about_user, String aboutUser, String skills) {
+    public UserModel(Long id, String username, String email, String password, String name, String aboutUser, String skills, RoomModel room) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
         this.aboutUser = aboutUser;
-
         this.skills = skills;
+        this.room = room;
     }
 
-    public UserModel(String username, String email, String password, String name, String about_user, String aboutUser, String skills) {
+    public UserModel(String username, String email, String password, String name, String aboutUser, String skills, RoomModel room) {
         this.username = username;
         this.email = email;
         this.password = password;
         this.name = name;
         this.aboutUser = aboutUser;
         this.skills = skills;
+        this.room = room;
     }
 
     public Long getId() {
@@ -105,6 +110,14 @@ public class UserModel {
         this.skills = skills;
     }
 
+    public RoomModel getRoom() {
+        return room;
+    }
+
+    public void setRoom(RoomModel room) {
+        this.room = room;
+    }
+
     @Override
     public String toString() {
         return "UserModel{" +
@@ -115,6 +128,7 @@ public class UserModel {
                 ", name='" + name + '\'' +
                 ", aboutUser='" + aboutUser + '\'' +
                 ", skills='" + skills + '\'' +
+                ", room=" + room +
                 '}';
     }
 }
