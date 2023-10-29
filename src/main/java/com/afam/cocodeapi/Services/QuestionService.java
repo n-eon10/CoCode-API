@@ -4,6 +4,8 @@ import com.afam.cocodeapi.Models.QuestionModel;
 import com.afam.cocodeapi.Repositories.QuestionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,17 +22,21 @@ public class QuestionService {
         this.questionRepository = questionRepository;
     }
 
-    public List<QuestionModel> getAllQuestions() {
-        return questionRepository.findAll();
+
+    public ResponseEntity<?> getAllQuestions() {
+        List<QuestionModel> questions = questionRepository.findAll();
+        return ResponseEntity.ok(questions);
     }
 
-    public QuestionModel getOneQuestion(Long questionId) {
+    public ResponseEntity<?> getOneQuestion(Long questionId) {
         Optional<QuestionModel> questionModelOptional = questionRepository.findById(questionId);
 
         if (questionModelOptional.isEmpty()) {
-            throw new EntityNotFoundException("The question with id: " + questionId + " cannot be found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("The question you are looking for does not exist");
         }
 
-        return questionModelOptional.get();
+        QuestionModel question = questionModelOptional.get();
+        return ResponseEntity.ok(question);
+
     }
 }

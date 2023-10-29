@@ -3,6 +3,7 @@ package com.afam.cocodeapi.Controllers;
 import com.afam.cocodeapi.Models.QuestionModel;
 import com.afam.cocodeapi.Services.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,12 +20,12 @@ public class QuestionController {
     }
 
     @GetMapping(path = "/getall")
-    public List<QuestionModel> getAllQuestions() {
+    public ResponseEntity<?> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
     @GetMapping(path = "/getone/{questionId}")
-    public QuestionModel getOneQuestion(@PathVariable Long questionId) {
+    public ResponseEntity<?> getOneQuestion(@PathVariable Long questionId) {
         return questionService.getOneQuestion(questionId);
     }
 }
