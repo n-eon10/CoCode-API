@@ -60,6 +60,8 @@ public class RoomService {
 
         Map<String, Object> response = new HashMap<>();
 
+        roomRepository.save(room);
+
         response.put("token", token);
         response.put("room", room);
 
