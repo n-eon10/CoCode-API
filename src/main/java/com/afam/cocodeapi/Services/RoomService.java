@@ -70,8 +70,8 @@ public class RoomService {
     }
 
     public ResponseEntity<?> joinRoom(Map<String, String> credentials) {
-        String roomName = credentials.get("roomname");
-        String password = credentials.get("password");
+        String roomName = credentials.get("roomName");
+        String password = credentials.get("roomPasscode");
 
         Optional<RoomModel> roomOptional = roomRepository.findByRoomName(roomName);
 
