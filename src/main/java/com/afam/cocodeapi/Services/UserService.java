@@ -98,8 +98,8 @@ public class UserService {
         String token = generateToken(user.getEmail());
 
         Map<String, Object> response = new HashMap<>();
-        response.put("token", token);
-        response.put("user", user);
+        response.put("token: ", token);
+        response.put("user: ", user);
 
         return ResponseEntity.ok(response);
     }
