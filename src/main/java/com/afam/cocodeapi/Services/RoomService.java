@@ -1,10 +1,9 @@
 package com.afam.cocodeapi.Services;
 
 import com.afam.cocodeapi.Enums.RoomType;
+import com.afam.cocodeapi.Middleware.AuthMiddleware;
 import com.afam.cocodeapi.Models.RoomModel;
 import com.afam.cocodeapi.Repositories.RoomRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -16,24 +15,14 @@ import java.util.*;
 @Service
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final Environment environment;
+    private final AuthMiddleware authMiddleware;
 
     @Autowired
-    public RoomService(RoomRepository roomRepository, Environment environment) {
+    public RoomService(RoomRepository roomRepository, Environment environment, AuthMiddleware authMiddleware) {
         this.roomRepository = roomRepository;
-        this.environment = environment;
+        this.authMiddleware = authMiddleware;
     }
 
-    private String generateToken(String subject) {
-        String secretKey = environment.getProperty("SECRET");
-
-        long expiration = System.currentTimeMillis() + 604800000;
-
-        return  Jwts.builder().setSubject(subject)
-                .setExpiration(new Date(expiration))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-    }
 
     public ResponseEntity<?> getAllRooms() {
         List<RoomModel> rooms = roomRepository.findAll();
@@ -56,7 +45,7 @@ public class RoomService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The room with room name: " + "room name already exists");
         }
 
-        String token = generateToken(room.getRoomName());
+        String token = authMiddleware.generateToken(room.getRoomName());
 
         Map<String, Object> response = new HashMap<>();
 
@@ -87,7 +76,7 @@ public class RoomService {
             }
         }
 
-        String token = generateToken(room.getRoomName());
+        String token = authMiddleware.generateToken(room.getRoomName());
 
         Map<String, Object> response = new HashMap<>();
         response.put("token", token);

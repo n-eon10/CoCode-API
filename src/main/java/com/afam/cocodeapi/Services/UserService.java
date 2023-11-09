@@ -1,10 +1,10 @@
 package com.afam.cocodeapi.Services;
 
+import com.afam.cocodeapi.Middleware.AuthMiddleware;
 import com.afam.cocodeapi.Models.UserModel;
 import com.afam.cocodeapi.Repositories.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -17,25 +17,15 @@ import java.util.*;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final Environment environment;
+    private final AuthMiddleware authMiddleware;
 
     @Autowired
     public UserService(UserRepository userRepository,
-                       Environment environment) {
+                       Environment environment, AuthMiddleware authMiddleware) {
         this.userRepository = userRepository;
-        this.environment = environment;
+        this.authMiddleware = authMiddleware;
     }
 
-    private String generateToken(String subject) {
-        String secretKey = environment.getProperty("SECRET");
-
-        long expiration = System.currentTimeMillis() + 604800000;
-
-        return  Jwts.builder().setSubject(subject)
-                .setExpiration(new Date(expiration))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
-                .compact();
-    }
 
 
     public ResponseEntity<?> getAllUsers() {
@@ -95,7 +85,7 @@ public class UserService {
             }
         }
 
-        String token = generateToken(user.getEmail());
+        String token = authMiddleware.generateToken(user.getEmail());
 
         Map<String, Object> response = new HashMap<>();
         response.put("token: ", token);
